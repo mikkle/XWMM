@@ -1,7 +1,6 @@
 
 
 function XBMCFixPath(myNode) {
-	
 	if (myNode.attributes.leaf) {	
 		if (myNode.attributes.xbmcIdFile != -1) {
 			if (myNode.attributes.xbmcIdPath == -1) {
@@ -16,45 +15,12 @@ function XBMCFixPath(myNode) {
 	}
 }
 
-function xbmcJsonRPC(params) {
-	var inputUrl = '/jsonrpc'
-	var myjson = '';
-	Ext.Ajax.request({
-		url: inputUrl,
-		params : params,
-	method: "POST",
-		async: false,
-		success: function (t){
-			myjson = Ext.util.JSON.decode(t.responseText);
-			},
-		failure: function(t){},
-			timeout: 2000
-	});	
-	return myjson.result;
-}
-
 function TrimXbmcXml(t){
 	var temp = t.responseText.replace(/<html>/g, "");
 	temp = temp.replace(/<\/html>/g, "");
 	temp = temp.replace(/\n/g, '');
 	//temp = temp.replace(/\\/g,"\\\\");
 	return temp
-}
-
-function getShares(type){
-	var tempList = [];
-    var inputUrl = '/xbmcCmds/xbmcHttp?command=GetShares(' + type + ')';
-    Ext.Ajax.request({
-        url: inputUrl,
-        method: 'GET',
-		async: false,
-        success: function (t){
-			tempList = TrimXbmcXml(t).split("<li>");
-			},
-        failure: function (t){},
-		timeout: 2000
-    });
-	return tempList
 }
 
 function isDirectory (item) {	
@@ -195,22 +161,6 @@ function createJsonRootDirectory(tablestring) {
 				'", xbmcScraper: "'+myNode.xbmcScraper+
 				'"';
 	return temp;
-}
-
-function getDir(path) {
-	var currentList = [];
-	//path = normalizeString(path);
-    var inputUrl = '/xbmcCmds/xbmcHttp?command=GetDirectory(' + path + ')';
-		Ext.Ajax.request({
-			url: inputUrl,
-			method: 'GET',
-			async: false,
-			success: function (t){
-				currentList = TrimXbmcXml(t).split("<li>")
-			},
-			failure: function (t){}
-		});
-	return currentList
 }
 
 
